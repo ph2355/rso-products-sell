@@ -31,9 +31,6 @@ public class Product implements Serializable {
     private Integer price;
     @Column(name = "description")
     private String description;
-    @Lob
-    @Column(name = "image")
-    private byte[] image;
 
     public Integer getId() {
         return id;
@@ -73,13 +70,5 @@ public class Product implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 }

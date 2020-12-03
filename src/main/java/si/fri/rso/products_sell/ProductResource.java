@@ -5,6 +5,8 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RequestScoped
@@ -32,6 +34,37 @@ public class ProductResource {
                 ? Response.ok(product).build()
                 : Response.status(Response.Status.NOT_FOUND).build();
     }
+
+    @GET
+    @Path("{productId}/image")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response getProductImage(@PathParam("productId") Integer productId) {
+
+        ProductImage pi = productBean.getProductImage(productId);
+
+        return pi != null
+                ? Response.ok(pi.getImage()).build()
+                : Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @POST
+    @Path("{productId}/image")
+    @Consumes(MediaType.APPLICATION_OCTET_STREAM)
+    public Response addProductImage(@PathParam("productId") Integer productId,
+                                    InputStream in) {
+        ProductImage pi = new ProductImage();
+        try {
+            pi.setImage(in.readAllBytes());
+            productBean.saveProductImage(pi);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                            .build();
+        }
+
+        return Response.noContent().build();
+    }
+
 
     @POST
     public Response addNewProduct(Product product) {
