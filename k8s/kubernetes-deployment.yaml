@@ -17,9 +17,15 @@ spec:
           name: products-sell
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
-              value: jdbc:postgres://oyhlavcm:p3mRXPaJzEH9xAxHWXqs8zNShDwJ2xB0@suleiman.db.elephantsql.com:5432/oyhlavcm
+              valueFrom:
+                secretKeyRef:
+                  name: pg-url
+                  key: KUMULUZEE_DATASOURCES0_CONNECTIONURL
             - name: KUMULUZEE_DATASOURCES0_USERNAME
-              value: oyhlavcm
+              valueFrom:
+                secretKeyRef:
+                  name: pg-username
+                  key: KUMULUZEE_DATASOURCES0_USERNAME
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               valueFrom:
                 secretKeyRef:

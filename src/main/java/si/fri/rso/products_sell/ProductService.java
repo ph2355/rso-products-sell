@@ -51,6 +51,7 @@ public class ProductService {
         return products;
     }
 
+    @Transactional
     public ProductImage getProductImage(Integer productId) {
         ProductImage productImage;
         try {
