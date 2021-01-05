@@ -53,6 +53,7 @@ public class ProductResource {
     public Response addProductImage(@PathParam("productId") Integer productId,
                                     InputStream in) {
         ProductImage pi = new ProductImage();
+        pi.setProductId(productId);
         try {
             pi.setImage(in.readAllBytes());
             productBean.saveProductImage(pi);
