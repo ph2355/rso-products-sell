@@ -4,7 +4,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class HealthBreak {
-    private Boolean breakHealth;
+    private Boolean breakHealth = false;
 
     public void setBreakHealth(Boolean breakHealth) {
         this.breakHealth = breakHealth;
