@@ -1,17 +1,21 @@
 package si.fri.rso.products_sell;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Path("/demo")
 public class DemoResource {
+
+    @Inject
+    HealthBreak healthBreak;
 
     @GET
     public Response getDemo() {
@@ -35,5 +39,19 @@ public class DemoResource {
         d.setTravis(travis);
         d.setDockerhub(dockerhub);
         return Response.ok(d).build();
+    }
+
+    @POST
+    @Path("/break")
+    public Response breakHealth() {
+        healthBreak.setBreakHealth(true);
+        return Response.noContent().build();
+    }
+
+    @POST
+    @Path("/unbreak")
+    public Response unbreakHealth() {
+        healthBreak.setBreakHealth(false);
+        return Response.noContent().build();
     }
 }
