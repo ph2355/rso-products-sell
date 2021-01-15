@@ -13,7 +13,7 @@ spec:
         app: products-sell
     spec:
       containers:
-        - image: ph2355/rso-products-sell:2021-01-15-09-29-13
+        - image: ph2355/rso-products-sell:2021-01-15-09-45-00
           name: products-sell
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
