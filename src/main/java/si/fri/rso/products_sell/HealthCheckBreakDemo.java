@@ -16,7 +16,7 @@ public class HealthCheckBreakDemo implements HealthCheck {
 
     @Override
     public HealthCheckResponse call() {
-        if(!healthBreak.getBreakHealth())
+        if(healthBreak.getHealthy())
             return HealthCheckResponse.named("Demo").up().build();
         else
             return HealthCheckResponse.named("Demo").down().build();

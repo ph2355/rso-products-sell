@@ -1,11 +1,15 @@
 package si.fri.rso.products_sell;
 
-import javax.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Timeout;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +20,9 @@ public class DemoResource {
 
     @Inject
     HealthBreak healthBreak;
+
+    @Inject
+    Cart cart;
 
     @GET
     public Response getDemo() {
@@ -44,14 +51,33 @@ public class DemoResource {
     @POST
     @Path("/break")
     public Response breakHealth() {
-        healthBreak.setBreakHealth(true);
+        healthBreak.setHealthy(false);
         return Response.noContent().build();
     }
 
     @POST
     @Path("/unbreak")
     public Response unbreakHealth() {
-        healthBreak.setBreakHealth(false);
+        healthBreak.setHealthy(true);
         return Response.noContent().build();
     }
+
+//    @CircuitBreaker(requestVolumeThreshold = 3)
+    @Timeout(value = 2, unit = ChronoUnit.SECONDS)
+//    @Fallback(fallbackMethod = "faultToleranceDemoFallback")
+    @GET
+    @Path("/faultToleranceDemo")
+    public Response faultToleranceDemo() {
+        String s = cart.faultToleranceDemo();
+        if(s.equals("ok"))
+            return Response.ok("ok").build();
+        else
+            throw new InternalServerErrorException();
+
+    }
+
+    public Response faultToleranceDemoFallback() {
+        return Response.ok("fallback").build();
+    }
+
 }

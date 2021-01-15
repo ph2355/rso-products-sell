@@ -1,6 +1,9 @@
 package si.fri.rso.products_sell;
 
+import si.fri.rso.products_sell.BingMaps.BingAPICalls;
+
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -10,6 +13,9 @@ import java.util.List;
 
 @RequestScoped
 public class ProductService {
+
+    @Inject
+    BingAPICalls bingAPICalls;
 
     @PersistenceContext
     private EntityManager em;
@@ -39,7 +45,8 @@ public class ProductService {
         ProductImage pi = em.find(ProductImage.class, productId);
         if (product != null) {
             em.remove(product);
-            em.remove(pi);
+            if(pi != null)
+                em.remove(pi);
         }
     }
 
@@ -73,5 +80,13 @@ public class ProductService {
             throw new NotFoundException();
         else
             em.persist(pi);
+    }
+
+    public Double getDistanceToProduct(Integer productId, String destination) {
+        Product product = getProduct(productId);
+        if(product == null)
+            throw new NotFoundException();
+
+        return bingAPICalls.getBingDistance(product.getLocation(), destination);
     }
 }

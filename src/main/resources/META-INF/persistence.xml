@@ -11,15 +11,11 @@
         <class>si.fri.rso.products_sell.Product</class>
         <class>si.fri.rso.products_sell.ProductImage</class>
 
-<!--        <properties>-->
-<!--            <property name="javax.persistence.schema-generation.database.action" value="create"/>-->
-<!--        </properties>-->
-
-<!--        <properties>-->
-<!--            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
-<!--            <property name="javax.persistence.schema-generation.create-source" value="metadata"/>-->
-<!--            <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>-->
-<!--        </properties>-->
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
+            <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>
+        </properties>
 
     </persistence-unit>
 </persistence>

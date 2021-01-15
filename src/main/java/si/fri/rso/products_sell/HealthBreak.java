@@ -1,16 +1,23 @@
 package si.fri.rso.products_sell;
 
+import com.kumuluz.ee.configuration.cdi.ConfigBundle;
+import com.kumuluz.ee.configuration.cdi.ConfigValue;
+
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
+@ConfigBundle("misc")
 public class HealthBreak {
-    private Boolean breakHealth = false;
 
-    public void setBreakHealth(Boolean breakHealth) {
-        this.breakHealth = breakHealth;
+    @ConfigValue(watch = true)
+    private Boolean healthy;
+
+    public Boolean getHealthy() {
+        return healthy;
     }
 
-    public Boolean getBreakHealth() {
-        return breakHealth;
+    public void setHealthy(Boolean healthy) {
+        this.healthy = healthy;
     }
+
 }

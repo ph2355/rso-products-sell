@@ -1,4 +1,8 @@
 kumuluzee:
+  name: products-sell
+  version: 1.0.0
+  environment:
+    name: dev
   datasources:
     - jndi-name: jdbc/ProductsDS
       connection-url: jdbc:postgresql://localhost:5432/products
@@ -18,3 +22,27 @@ kumuluzee:
         jndi-name: jdbc/ProductsDS
       disk-space-health-check:
         threshold: 100000000
+  metrics:
+    web-instrumentation:
+      - name: productsEndpoint
+        url-pattern: /v1/products/*
+  rest-client:
+    registrations:
+      - class: si.fri.rso.products_sell.Cart
+        url: http://rso-cart:8080/v1
+        providers: si.fri.rso.products_sell.filters.UniqueIDClientRequestFilter
+        connect-timeout: 1000
+        read-timeout: 5000
+      - class: si.fri.rso.products_sell.BingMaps.LocationAPI
+        url: http://dev.virtualearth.net/REST/v1
+        connect-timeout: 5000
+        read-timeout: 5000
+      - class: si.fri.rso.products_sell.BingMaps.DistanceMatrixAPI
+        url: http://dev.virtualearth.net/REST/v1
+        connect-timeout: 5000
+        read-timeout: 5000
+    propagate-headers: Request-ID
+bing:
+  apikey: "AnOfR1DTomWos2EXmUvhJSbunF40TaljlmB2M850AqIvUNYGOjiHbaQXUBMDgQWr"
+misc:
+  healthy: true
